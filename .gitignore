@@ -1,0 +1,11 @@
+# IDE related
+.idea/
+.vscode
+.vs
+CMakeSettings.json
+
+# office temp file
+~$*
+
+# macOS
+.DS_Store
