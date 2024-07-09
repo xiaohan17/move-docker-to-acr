@@ -1,4 +1,4 @@
-name: Duplicate docker images to Aliyun ACR
+name: mongodb-community-server
 
 # Configures this workflow to run every time a change is pushed to the branches.
 on:
