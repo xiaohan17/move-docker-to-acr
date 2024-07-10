@@ -44,7 +44,7 @@ jobs:
         uses: docker/metadata-action@v5
         with:
           images: |
-            ${{ env.REGISTRY_ACR }}/${{ env.NAMESPACE_ACR }}/hello-world
+            ${{ env.REGISTRY_ACR }}/${{ env.NAMESPACE_ACR }}/nginx-webdav
           tags: |
             type=ref,event=branch
             type=ref,event=pr

@@ -59,7 +59,7 @@ jobs:
       - name: Duplicate eclipse-temurin
         uses: docker/build-push-action@v5
         with:
-          context: .
+          context: ./eclipse-temurin
           file: ./eclipse-temurin/Dockerfile
           push: true
           platforms: linux/amd64,linux/arm64

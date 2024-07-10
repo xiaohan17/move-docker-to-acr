@@ -59,7 +59,7 @@ jobs:
       - name: Duplicate postgres:14.12-alpine
         uses: docker/build-push-action@v5
         with:
-          context: .
+          context: ./postgres
           file: ./postgres/Dockerfile
           push: true
           platforms: linux/amd64,linux/arm64

@@ -59,7 +59,7 @@ jobs:
       - name: Duplicate maven
         uses: docker/build-push-action@v5
         with:
-          context: .
+          context: ./maven
           file: ./maven/Dockerfile
           push: true
           platforms: linux/amd64,linux/arm64

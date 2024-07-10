@@ -59,7 +59,7 @@ jobs:
       - name: Duplicate hello-world
         uses: docker/build-push-action@v5
         with:
-          context: .
+          context: ./hello-world
           file: ./hello-world/Dockerfile
           push: true
           platforms: linux/amd64,linux/arm64

@@ -59,8 +59,8 @@ jobs:
       - name: Duplicate neo4j:4.4.35-community
         uses: docker/build-push-action@v5
         with:
-          context: .
-          file: ./mongo/Dockerfile
+          context: ./neo4j
+          file: ./neo4j/Dockerfile
           push: true
           platforms: linux/amd64,linux/arm64
           provenance: false

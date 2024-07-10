@@ -1,4 +1,4 @@
-name: redis
+name: httpd-webdav
 
 # Configures this workflow to run every time a change is pushed to the branches.
 on:
@@ -44,7 +44,7 @@ jobs:
         uses: docker/metadata-action@v5
         with:
           images: |
-            ${{ env.REGISTRY_ACR }}/${{ env.NAMESPACE_ACR }}/redis
+            ${{ env.REGISTRY_ACR }}/${{ env.NAMESPACE_ACR }}/httpd-webdav
           tags: |
             type=ref,event=branch
             type=ref,event=pr
@@ -56,15 +56,15 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
-      - name: Duplicate redis:6.2.14-alpine
+      - name: Duplicate httpd-webdav
         uses: docker/build-push-action@v5
         with:
-          context: ./redis
-          file: ./redis/Dockerfile
+          context: ./httpd-webdav
+          file: ./httpd-webdav/Dockerfile
           push: true
           platforms: linux/amd64,linux/arm64
           provenance: false
           tags: |
-            ${{ env.REGISTRY_ACR }}/${{ env.NAMESPACE_ACR }}/redis:6.2.14-alpine
+            ${{ env.REGISTRY_ACR }}/${{ env.NAMESPACE_ACR }}/httpd-webdav:latest
           cache-from: type=gha
           cache-to: type=gha,mode=max

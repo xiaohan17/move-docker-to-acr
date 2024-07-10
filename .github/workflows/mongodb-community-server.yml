@@ -59,7 +59,7 @@ jobs:
       - name: Duplicate mongodb/mongodb-community-server:4.4.28-ubuntu2004
         uses: docker/build-push-action@v5
         with:
-          context: .
+          context: ./mongo
           file: ./mongo/Dockerfile
           push: true
           platforms: linux/amd64,linux/arm64
