@@ -59,12 +59,12 @@ jobs:
       - name: Duplicate httpd-webdav
         uses: docker/build-push-action@v5
         with:
-          context: ./httpd-webdav
-          file: ./httpd-webdav/Dockerfile
+          context: ./httpd-webdav/2.4
+          file: ./httpd-webdav/2.4/Dockerfile
           push: true
           platforms: linux/amd64,linux/arm64
           provenance: false
           tags: |
-            ${{ env.REGISTRY_ACR }}/${{ env.NAMESPACE_ACR }}/httpd-webdav:latest
+            ${{ env.REGISTRY_ACR }}/${{ env.NAMESPACE_ACR }}/httpd-webdav:2.4
           cache-from: type=gha
           cache-to: type=gha,mode=max
