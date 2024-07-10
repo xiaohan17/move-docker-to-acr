@@ -1,4 +1,5 @@
-FROM nginx:latest
+FROM nginx:1.21.5-perl
+# nginx-extras requires the version of nginx less than 1.22
 
 LABEL maintainer="maltokyo"
 
