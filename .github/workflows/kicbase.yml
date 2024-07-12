@@ -44,7 +44,7 @@ jobs:
         uses: docker/metadata-action@v5
         with:
           images: |
-            ${{ env.REGISTRY_ACR }}/${{ env.NAMESPACE_ACR }}/mongodb-community-server
+            ${{ env.REGISTRY_ACR }}/${{ env.NAMESPACE_ACR }}/kicbase/stable
           tags: |
             type=ref,event=branch
             type=ref,event=pr
@@ -56,15 +56,15 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
-      - name: Duplicate mongodb/mongodb-community-server:4.4.28-ubuntu2004
+      - name: Duplicate kicbase/stable:v0.0.44
         uses: docker/build-push-action@v5
         with:
-          context: ./mongo
-          file: ./mongo/Dockerfile
+          context: ./kicbase
+          file: ./kicbase/Dockerfile
           push: true
           platforms: linux/amd64,linux/arm64
           provenance: false
           tags: |
-            ${{ env.REGISTRY_ACR }}/${{ env.NAMESPACE_ACR }}/mongodb-community-server:4.4.28-ubuntu2004
+            ${{ env.REGISTRY_ACR }}/${{ env.NAMESPACE_ACR }}/kicbase/stable:v0.0.44
           cache-from: type=gha
           cache-to: type=gha,mode=max
