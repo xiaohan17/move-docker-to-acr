@@ -1,0 +1,58 @@
+## SAGA-GIS 8.1.0, with VIGRA
+# registry.cn-hangzhou.aliyuncs.com/onesis-geomodels/sagagis:debian-8.1.0
+#
+# Copyright 2024 Liang-Jun Zhu <zlj@lreis.ac.cn>
+##
+
+ARG DEBIAN_VERSION=bullseye
+FROM debian:${DEBIAN_VERSION} AS builder
+ARG DEBIAN_FRONTEND=noninteractive
+
+LABEL maintainer="Liang-Jun Zhu <zlj@lreis.ac.cn>"
+
+ARG VERSION=8.1.0
+
+# Installation Dependency Tools
+RUN apt-get update && apt-get upgrade -y && apt upgrade -y \
+    && apt-get install -y wget cmake make g++ curl \
+    libgdal-dev libproj-dev unixodbc-dev libpq-dev \
+    libhpdf-dev libopencv-dev \
+    libvigraimpex-dev libfftw3-dev libpdal-dev \
+    libsvm-dev libqhull-dev libdxflib-dev \
+    libwxgtk3.0-gtk3-dev
+
+# Download and copy source code to /saga
+WORKDIR /saga
+RUN wget https://github.com/saga-gis/saga-gis/archive/refs/tags/v${VERSION}.tar.gz -O saga-gis.tar.gz -c \
+    && tar xzf saga-gis.tar.gz -C /saga \
+    && mv /saga/saga-gis-${VERSION}/saga-gis /saga
+
+# Compile SAGA-GIS without GUI, without python bindings
+# BE CAUTION: the CMAKE_INSTALL_PREFIX=/usr/local MUST BE THE SAME WITH final stage
+RUN cd /saga/saga-gis && mkdir build && cd build \
+    && cmake .. -DWITH_GUI=OFF -DWITH_PYTHON=OFF \
+    -DCMAKE_BUILD_TYPE=RELEASE \
+    -DWITH_TOOLS_VIGRA=ON \
+    -DCMAKE_INSTALL_PREFIX=/usr/local \
+    && make -j8 && make install
+
+# # Build final image
+FROM debian:${DEBIAN_VERSION} AS final
+ARG DEBIAN_FRONTEND=noninteractive
+
+RUN apt-get update && apt-get upgrade -y && apt upgrade -y \
+    && apt-get install -y libgomp1 curl \
+    gdal-bin proj-bin libodbc1 libpq5 \
+    libhpdf-2.3.0 libopencv-contrib4.5 \
+    libvigraimpex11 libfftw3-bin libpdal-base12 \
+    libsvm3 libqhull-dev libdxflib3 \
+    libwxgtk3.0-gtk3-0v5 \
+    && rm -rf /var/lib/apt/lists/*
+
+# Copy compiled SAGA-GIS to the final image
+COPY --from=builder /usr/local /usr/local
+
+ENV SAGA_TLB=/usr/local/lib/saga
+ENV LD_LIBRARY_PATH=/usr/local/lib
+
+ENTRYPOINT ["saga_cmd"]
