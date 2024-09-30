@@ -1,10 +1,10 @@
 name: svm:1.0.0-sklearn1.0.2
 
 # Configures this workflow to run every time a change is pushed to the branches.
-on:
-  push:
-    branches:
-        - 'main'
+#on:
+#  push:
+#    branches:
+#        - 'main'
 # Defines custom environment variables for the workflow. These are used for the Container registry domain, and a name for the Docker image that this workflow builds.
 env:
   ## aliyun ACR

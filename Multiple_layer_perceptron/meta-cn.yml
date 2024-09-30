@@ -1,0 +1,201 @@
+language: cn
+model_unique_abbr: multiple_layer_perceptron
+version: 1.0
+identification:
+  docker_image_name: multiple_layer_perceptron:1.0
+  model_name: 多层感知机
+  semantic: Multiple Layer Perceptron Classification
+  description: 以监督学习方式对图像进行语义分类
+  category_application: 预测型
+  category_data:
+  - 遥感影像数据
+  - 图像数据
+  keywords:
+  - 图像分类
+  - 对象识别
+parameter_info:
+  parameters:
+  - arg_name: dr
+    param_type: input_data
+    name: 数据路径
+    description: 训练数据的存放路径
+    is_required: false
+    data_type: jpg
+    data_semantic: Training data dir
+
+  - arg_name: b
+    param_type: param
+    name: 批量大小
+    description: 每次投入网络训练的数据批次大小
+    data_type: int
+    data_semantic: Batch Size
+    specification:
+      default: 256
+      range:
+        - "(0,)"
+
+  - arg_name: n
+    param_type: param
+    name: 线程数
+    description: 读取数据的子线程数
+    is_required: false
+    data_type: int
+    data_semantic: number workers
+    specification:
+      default: 0
+      range:
+        - "[0,1]"
+
+  - arg_name: lr
+    param_type: param
+    name: 学习率
+    description:
+    is_required: false
+    data_type: float
+    data_semantic: Learning rate
+    specification:
+      default: 0.1
+      range:
+        - "[0,1]"
+
+  - arg_name: ne
+    param_type: param
+    name: 训练轮数
+    description: 训练轮数
+    data_type: int
+    data_semantic: Number of epochs
+    specification:
+      default: 20
+      range:
+        - "[0,]"
+
+  - arg_name: nhl
+    param_type: param
+    name: 隐藏层层数
+    description: 网络隐藏层的数量
+    is_required: false
+    data_type: int
+    data_semantic: Number of hidden layers
+    specification:
+      default: 1
+      range:
+        - "[1,]"
+
+  - arg_name: nhu
+    param_type: param
+    name: 隐藏层单元数
+    description: 隐藏层的单元数量
+    is_required: false
+    data_type: int
+    data_semantic: Number of hidden units
+    specification:
+      default: 256
+      range:
+        - "[1,]"
+
+
+  - arg_name: a
+    param_type: output_data
+    name: 精读文件
+    description: 记录每轮训练的模型训练精度的日志文件
+    data_type: txt
+    data_semantic: Learning rate
+
+  - arg_name: mean
+    param_type: param
+    name: 均值
+    description: 网络参数初始化时的均值
+    is_required: false
+    data_type: float
+    data_semantic: mean
+    specification:
+      default: 0
+      range:
+      - "[0,1)"
+
+  - arg_name: std
+    param_type: param
+    name: 标准差
+    description: 网络参数初始化时的标准差
+    is_required: false
+    data_type: float
+    data_semantic: Standard deviation
+    specification:
+      default: 0.1
+      range:
+      - "(0,1)"
+
+  - arg_name: m
+    param_type: output_data
+    name: 模型路径
+    description: 训练完成后保存模型的路径
+    data_type: pth
+    data_semantic: Model dir
+
+  - arg_name: pd
+    param_type: input_data
+    name: 待预测数据路径
+    description: 待分类数据的路径
+    is_required: false
+    data_type: jpg
+    data_semantic: Predict data dir
+
+  - arg_name: ld
+    param_type: input_data
+    name: 预训练模型路径
+    description: 预训练模型的载入路径，用于初始化网络
+    is_required: false
+    data_type: pth
+    data_semantic: Loaded model
+
+  - arg_name: rd
+    param_type: output_data
+    name: 结果路径
+    description: 预测结果的输出路径
+    is_required: false
+    data_type: csv
+    data_semantic: Result dir
+
+application:
+  domain: 图像分类
+  objective: 依据先验信息对影像数据进行分类
+  mechanism: 网络由不同层次的结点集合组成，输入数据经过每个隐藏层计算后得到数据预测为每个类别的概率，并依据概率做出图像分类。
+operation:
+  usage: 在命令行中用代码指定训练数据路径，待预测数据路径，训练轮次，训练结果模型路径，分类结果路径，完成算法运行。
+  exec_example:
+  - docker run -v $(pwd):/data multiple_layer_perceptron:1.0 -dr data -ne 20 -a accuracy.txt -m src -pd data/predict -rd result
+  output_display:
+  - 将预测得到的图像文件显示在前端页面中
+  license:
+  - BSD-3-Clause
+  - MIT
+  - HPND
+technique:
+  language:
+  - Python
+  os:
+  - Linux
+  - Windows
+  hardware:
+  - GPU
+  dependencies:
+  - name: python
+    version: 3.8
+  - name: numpy
+    version: 1.18.5
+  - name: opencv-contrib-python
+    version: 4.1.2.30
+  - name: pillow
+    version: 7.2.0
+  - name: tqdm
+    version: 4.47.0
+  - name: cuda
+    version: 10.2
+  - name: cudnn
+    version: 8
+source:
+  maintainer: Shan Huang
+  organization: Beijing University of Civil Engineering and Architecture
+  contact: 1035305483@qq.com
+  references:
+  - "Rumelhart, D. E., Hinton, G., Williams, R. J. 1986. Learning representations by back-propagating errors. Nature, 323(6088): 533–536."
