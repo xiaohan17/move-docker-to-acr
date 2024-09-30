@@ -1,7 +1,8 @@
-name: multiple_layer_perceptron:1.0
+name: rf_sagagis:debian-8.5.0
 
 # Configures this workflow to run every time a change is pushed to the branches.
-#on:
+on:
+  workflow_dispatch:
 #  push:
 #    branches:
 #        - 'main'
@@ -43,7 +44,7 @@ jobs:
         uses: docker/metadata-action@v5
         with:
           images: |
-            ${{ env.REGISTRY_ACR }}/${{ env.NAMESPACE_ACR }}/multiple_layer_perceptron:1.0
+            ${{ env.REGISTRY_ACR }}/${{ env.NAMESPACE_ACR }}/random_forest/sagagis:debian-8.5.0
           tags: |
             type=ref,event=branch
             type=ref,event=pr
@@ -55,15 +56,15 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
-      - name: Duplicate multiple_layer_perceptron:1.0
+      - name: Duplicate rf_sagagis:debian-8.5.0
         uses: docker/build-push-action@v5
         with:
-          context: ./Multiple_layer_perceptron
-          file: ./Multiple_layer_perceptron/Dockerfile
+          context: ./rf_sagagis
+          file: ./rf_sagagis/Dockerfile
           push: true
           platforms: linux/amd64,linux/arm64
           provenance: false
           tags: |
-            ${{ env.REGISTRY_ACR }}/${{ env.NAMESPACE_ACR }}/multiple_layer_perceptron:1.0
+            ${{ env.REGISTRY_ACR }}/${{ env.NAMESPACE_ACR }}/random_forest/sagagis:debian-8.5.0
           cache-from: type=gha
           cache-to: type=gha,mode=max
