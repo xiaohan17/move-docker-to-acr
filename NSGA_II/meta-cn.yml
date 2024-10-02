@@ -1,0 +1,66 @@
+language: cn
+model_unique_abbr: NSGA_II
+version: 1.0
+identification:
+  docker_image_name: nsga-ii:1.0.0
+  model_name: NSGA_II（CSV）
+  semantic: 带有精英保留策略的快速非支配多目标优化算法
+  description: 在基本遗传算法的基础上，对选择再生方法进行改进:将每个个体按照它们的支配与非支配关系进行分层，再做选择操作，从而使得该算法在多目标优化方面得到非常满意的结果。
+  category_application: 预测型
+  category_data:
+  - 结构化事务数据
+  keywords:
+  - 多目标优化
+
+
+parameter_info:
+  parameters:
+  - arg_name: ipd
+    param_type: input_data
+    name: 初始种群数据
+    description: 种群数据的初始值
+    data_type: csv
+    data_semantic: initial_pop_data
+
+  - arg_name: mag
+    param_type: param
+    name: 迭代次数
+    description: 优化迭代的次数
+    data_type: int
+    data_semantic: max gen
+
+  - arg_name: opd
+    param_type: output_data
+    name: 输出数据
+    description: 输出数据
+    data_type: csv
+    data_semantic: output data
+
+
+
+application:
+  domain: 结构化事务数据的多目标优化
+operation:
+  usage: 在命令行中用代码指定输入数据、最大迭代次数和输出参数，完成计算。
+  exec_example:
+  - docker run -v $(pwd):/data nsga-ii:1.0 -ipd /data/input.csv -mag 100  -opd /data/naga_result.csv
+  output_display:
+  - 依据多目标函数，对初始化种群进行目标优化，得到优化后的种群。
+technique:
+  language:
+  - Python
+  os:
+  - windows
+  - linux
+  hardware:
+  - cpu
+  dependencies:
+  - name: numpy
+    version: 1.25.2
+source:
+  maintainer: Han Li
+  organization: Beijing University of Civil Engineering and Architecture
+  contact: 2108160224011@stu.bucea.edu.cn
+  references:
+  - https://blog.csdn.net/qq_20412595/article/details/129457083
+
